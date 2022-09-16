@@ -13,5 +13,5 @@ $ pip install beautifulsoup4
 
 then run the code
 ```
-./ReportCrawler.py
+ReportCrawler.py
 ```
