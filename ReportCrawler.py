@@ -17,7 +17,7 @@ ctx.verify_mode = ssl.CERT_NONE
 conn = sqlite3.connect('report_list.sqlite')
 cur = conn.cursor()
 
-# 创建储存报告的表格
+# create table to store Reports
 cur.execute('''CREATE TABLE IF NOT EXISTS Reports
 (id INTEGER PRIMARY KEY,
 name TEXT UNIQUE,
@@ -27,19 +27,19 @@ org_id INTEGER,
 count INTEGER,
 status TEXT)''')
 
-# 创建储存发布组织的表格
+# create table to store Organzations, although this application can only crawl report from Bain China
 cur.execute('''CREATE TABLE IF NOT EXISTS Organizations
 (id INTEGER PRIMARY KEY,
 name TEXT UNIQUE,
 end_num  INTEGER,
 type_id INTEGER)''')
 
-# 创建储存组织类型的表格
+# create table Type of Organizations
 cur.execute('''CREATE TABLE IF NOT EXISTS TypeofOrg
 (id INTEGER PRIMARY KEY,
 type TEXT)''')
 
-# 接下来的部分只有bain中国适用，其他网站可能得改改
+# This part below can only apply to Bain China, you may change the code to crawl reports elsewhere
 cur.execute('''INSERT OR IGNORE INTO TypeofOrg
 (id, type) VALUES(1, 'consulting')''')
 cur.execute('''INSERT OR IGNORE INTO Organizations
@@ -85,7 +85,7 @@ while True:
         continue
 
     title = soup.title.string
-    if title == "贝恩公司":
+    if title == "贝恩公司": # which is "Bain Company" in Chinese, which is the title for pages with no contents
         print(url, "Nothing here")
         nothing += 1
         continue
